@@ -1,6 +1,7 @@
 //  https://exclusions.oig.hhs.gov
 
 const https = require("https");
+const { JSDOM } = require("jsdom");
 
 const getInputTags = (htmlString) => {
   const inputTags = {};
@@ -36,9 +37,37 @@ const function4 = (AWSALBMatch, AWSALBCORSMatch, sessionIdMatch) => {
 
     res.on("end", () => {
       // console.log(responseData);
+      //  ctl00_cpExclusions_gvEmployees
       console.log(
         `Response data True: ${responseData.includes("no results are found")}`
       );
+      const dom = new JSDOM(responseData);
+      const document = dom.window.document;
+      const table = document.getElementById("ctl00_cpExclusions_gvEmployees");
+      let result = [];
+      if (table) {
+        const keys = [
+          "lastName",
+          "firstName",
+          "middleName",
+          "general",
+          "specialty",
+          "exclusion",
+          "waiver",
+        ];
+        const trNodeList = table.querySelectorAll("tr");
+        const trArray = Array.from(trNodeList).slice(1);
+        trArray.forEach((tr) => {
+          const tdList = tr.querySelectorAll("td");
+          let trObject = {};
+          const tdArray = Array.from(tdList);
+          for (let i = 0; i < keys.length; i++) {
+            trObject[keys[i]] = tdArray[i].textContent;
+          }
+          result.push(trObject);
+        });
+      }
+      console.log(result);
     });
   });
 
@@ -64,8 +93,8 @@ const function3 = (
     __SCROLLPOSITIONY: "200",
     "ctl00$cpExclusions$ibSearchSP.x": "48",
     "ctl00$cpExclusions$ibSearchSP.y": "8",
-    ctl00$cpExclusions$txtSPLastName: "Margaret",
-    ctl00$cpExclusions$txtSPFirstName: "",
+    ctl00$cpExclusions$txtSPLastName: "Arise",
+    ctl00$cpExclusions$txtSPFirstName: "Margaret",
   };
 
   const params = new URLSearchParams(data).toString();

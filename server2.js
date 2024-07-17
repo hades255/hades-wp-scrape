@@ -1,15 +1,16 @@
+//  https://emr.dads.state.tx.us/DadsEMRWeb/emrRegistrySearch.jsp
 //  https://emr.dads.state.tx.us/DadsEMRWeb/searchResultsName.jsp
+//  https://emr.dads.state.tx.us/DadsEMRWeb/searchResultsSsn.jsp
 
 const https = require('https');
 
-const firstName = 'Margaret';
-const lastName = '';
-
 const postData = `firstName=${encodeURIComponent(firstName)}&lastName=${encodeURIComponent(lastName)}`;
+// const postData = `ssn=${encodeURIComponent(ssn)}`;
 
 const options = {
     hostname: 'emr.dads.state.tx.us',
     path: '/DadsEMRWeb/searchResultsName.jsp',
+    // path: '/DadsEMRWeb/searchResultsSsn.jsp',
     method: 'POST',
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
