@@ -145,43 +145,6 @@
                   <tr>
                     <td scope="row">
                       <div class="d-flex flex-column">
-                        <span>ECPTOTE</span>
-                        <span>https://ptot.texas.gov/pt-license-search/</span>
-                      </div>
-                    </td>
-                    <td id="td0"><div class="spinner-border" role="status">
-                      <span class="sr-only">Loading...</span>
-                    </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td scope="row">
-                      <div class="d-flex flex-column">
-                        <span>EMR DADS</span>
-                        <span
-                          >https://emr.dads.state.tx.us/DadsEMRWeb/searchResultsName.js</span
-                        >
-                      </div>
-                      p
-                    </td>
-                    <td id="td1"><div class="spinner-border" role="status">
-                      <span class="sr-only">Loading...</span>
-                    </div></td>
-                  </tr>
-                  <tr>
-                    <td scope="row">
-                      <div class="d-flex flex-column">
-                        <span>Texas Medical Board</span>
-                        <span>https://profile.tmb.state.tx.us/Search.aspx</span>
-                      </div>
-                    </td>
-                    <td id="td2"><div class="spinner-border" role="status">
-                      <span class="sr-only">Loading...</span>
-                    </div></td>
-                  </tr>
-                  <tr>
-                    <td scope="row">
-                      <div class="d-flex flex-column">
                         <span>OIG Exclusion</span>
                         <span>https://exclusions.oig.hhs.gov</span>
                       </div>
@@ -207,69 +170,63 @@
               </table>
             </div>
             <div class="d-flex flex-column d-none" id="json-data">
-              <p>https://ptot.texas.gov/pt-license-search/</p>
-              <textarea name="" id="ptot-result" class="w-100"></textarea>
-              <p>https://emr.dads.state.tx.us/DadsEMRWeb/searchResultsName.jsp</p>
-              <textarea name="" id="emr-result" class="w-100"></textarea>
-              <p>https://profile.tmb.state.tx.us/Search.aspx</p>
-              <textarea name="" id="profile-result" class="w-100"></textarea>
               <p>https://exclusions.oig.hhs.gov</p>
-              <textarea name="" id="exclusions-result" class="w-100"></textarea>
+              <textarea name="" id="exclusions-result" class="w-100" rows="7"></textarea>
               <p>https://oig.hhsc.state.tx.us/oigportal2/Exclusions</p>
-              <textarea name="" id="hhsc-result" class="w-100"></textarea>
+              <textarea name="" id="hhsc-result" class="w-100" rows="7"></textarea>
             </div>
         </div>`);
 
         $("#search-result").toggleClass("d-none");
 
-        try {
-          const response = await fetch(
-            `/ptot-texas?first=${data.firstname}&last=${data.lastname}`
-          );
-          const ptot = await response.json();
-          $("#ptot-result").text(JSON.stringify(ptot, null, 4));
-          if (ptot.status) $("#td0").html("Good");
-          else {
-            $("#td0").html("Bad");
-          }
-        } catch (e) {
-          $("#td0").html("N/A");
-        }
+        // try {
+        //   const response = await fetch(
+        //     `/ptot-texas?first=${data.firstname}&last=${data.lastname}`
+        //   );
+        //   const ptot = await response.json();
+        //   $("#ptot-result").text(JSON.stringify(ptot.result, null, 4));
+        //   if (ptot.status) $("#td0").html("Good");
+        //   else {
+        //     $("#td0").html("Bad");
+        //   }
+        // } catch (e) {
+        //   $("#td0").html("N/A");
+        // }
+
+        // try {
+        //   const response = await fetch(
+        //     `/emr-dads?first=${data.firstname}&last=${data.lastname}`
+        //   );
+        //   const emr = await response.json();
+        //   $("#emr-result").text(JSON.stringify(emr.result, null, 4));
+        //   if (emr.status) $("#td1").html("Good");
+        //   else {
+        //     $("#td1").html("Bad");
+        //   }
+        // } catch (e) {
+        //   $("#td1").html("N/A");
+        // }
+
+        // try {
+        //   const response = await fetch(
+        //     `/profile-tmb?first=${data.firstname}&last=${data.lastname}`
+        //   );
+        //   const profile = await response.json();
+        //   $("#profile-result").text(JSON.stringify(profile.result, null, 4));
+        //   if (profile.status) $("#td2").html("Good");
+        //   else {
+        //     $("#td2").html("Bad");
+        //   }
+        // } catch (e) {
+        //   $("#td2").html("N/A");
+        // }
 
         try {
           const response = await fetch(
-            `/emr-dads?first=${data.firstname}&last=${data.lastname}`
-          );
-          const emr = await response.json();
-          $("#emr-result").text(JSON.stringify(emr, null, 4));
-          if (emr.status) $("#td1").html("Good");
-          else {
-            $("#td1").html("Bad");
-          }
-        } catch (e) {
-          $("#td1").html("N/A");
-        }
-
-        try {
-          const response = await fetch(
-            `/profile-tmb?first=${data.firstname}&last=${data.lastname}`
-          );
-          const profile = await response.json();
-          $("#profile-result").text(JSON.stringify(profile, null, 4));
-          if (profile.status) $("#td2").html("Good");
-          else {
-            $("#td2").html("Bad");
-          }
-        } catch (e) {
-          $("#td2").html("N/A");
-        }
-
-        try {
-          const response = await fetch(
-            `/exclusions-oig?first=${data.firstname}&last=${data.lastname}`
+            `/exclusions-oig?first=${data.firstname}&last=${data.lastname}&ssn=${data.ssn}`
           );
           const exclusions = await response.json();
-          $("#exclusions-result").text(JSON.stringify(exclusions, null, 4));
+          $("#exclusions-result").text(JSON.stringify(exclusions.result, null, 4));
           if (exclusions.status) $("#td3").html("Good");
           else {
             $("#td3").html("Bad");
@@ -280,10 +237,10 @@
 
         try {
           const response = await fetch(
-            `/oig-hhsc?first=${data.firstname}&last=${data.lastname}`
+            `/oig-hhsc?first=${data.firstname}&last=${data.lastname}&ssn=${data.ssn}`
           );
           const hhsc = await response.json();
-          $("#hhsc-result").text(JSON.stringify(hhsc, null, 4));
+          $("#hhsc-result").text(JSON.stringify(hhsc.result, null, 4));
           if (hhsc.status) $("#td4").html("Good");
           else {
             $("#td4").html("Bad");
@@ -321,6 +278,7 @@
 
 <!--
 
+
                   <tr>
                     <td scope="row">
                       <div class="d-flex flex-column">
@@ -329,8 +287,8 @@
                       </div>
                     </td>
                     <td id="td0"><div class="spinner-border" role="status">
-  <span class="sr-only">Loading...</span>
-</div>
+                      <span class="sr-only">Loading...</span>
+                    </div>
                     </td>
                   </tr>
                   <tr>
@@ -344,8 +302,8 @@
                       p
                     </td>
                     <td id="td1"><div class="spinner-border" role="status">
-  <span class="sr-only">Loading...</span>
-</div></td>
+                      <span class="sr-only">Loading...</span>
+                    </div></td>
                   </tr>
                   <tr>
                     <td scope="row">
@@ -355,41 +313,19 @@
                       </div>
                     </td>
                     <td id="td2"><div class="spinner-border" role="status">
-  <span class="sr-only">Loading...</span>
-</div></td>
+                      <span class="sr-only">Loading...</span>
+                    </div></td>
                   </tr>
 
-        try {
-          const response = await fetch(
-            `/ptot-texas?first=${data.firstname}&last=${data.lastname}`,
-          );
-          const ptot = await response.json();
-          if (ptot.score) $("#td0").html("Good");
-          else $("#td0").html("Bad");
-        } catch (e) {
-          $("#td0").html("N/A");
-        }
 
-        try {
-          const response = await fetch(
-            `/emr-dads?first=${data.firstname}&last=${data.lastname}`,
-          );
-          const emr = await response.json();
-          if (emr.score) $("#td1").html("Good");
-          else $("#td1").html("Bad");
-        } catch (e) {
-          $("#td1").html("N/A");
-        }
 
-        try {
-          const response = await fetch(
-            `/profile-tmb?first=${data.firstname}&last=${data.lastname}`,
-          );
-          const profile = await response.json();
-          if (profile.score) $("#td2").html("Good");
-          else $("#td2").html("Bad");
-        } catch (e) {
-          $("#td2").html("N/A");
-        }
 
-                -->
+                  
+              <p>https://ptot.texas.gov/pt-license-search/</p>
+              <textarea name="" id="ptot-result" class="w-100" rows="7"></textarea>
+              <p>https://emr.dads.state.tx.us/DadsEMRWeb/searchResultsName.jsp</p>
+              <textarea name="" id="emr-result" class="w-100" rows="7"></textarea>
+              <p>https://profile.tmb.state.tx.us/Search.aspx</p>
+              <textarea name="" id="profile-result" class="w-100" rows="7"></textarea>
+
+-->

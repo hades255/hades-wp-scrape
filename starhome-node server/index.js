@@ -60,8 +60,8 @@ app.get("/profile-tmb", async (req, res) => {
  */
 app.get("/exclusions-oig", async (req, res) => {
   try {
-    const { first, last } = req.query;
-    const result = await exclusions_oig_api(first, last);
+    const { first, last, ssn } = req.query;
+    const result = await exclusions_oig_api(first, last, ssn);
     return res.status(200).json(result);
   } catch (e) {
     console.log(e.message);
@@ -74,8 +74,8 @@ app.get("/exclusions-oig", async (req, res) => {
  */
 app.get("/oig-hhsc", async (req, res) => {
   try {
-    const { first, last } = req.query;
-    const result = await oig_hhsc_api(first, last);
+    const { first, last, ssn } = req.query;
+    const result = await oig_hhsc_api(first, last, ssn);
     return res.status(200).json(result);
   } catch (e) {
     console.log(e.message);
@@ -88,3 +88,5 @@ const server = app.listen(8000, () => {
 });
 
 server.setTimeout(8000);
+
+//  "Margaret", "Arise", "452472083"
